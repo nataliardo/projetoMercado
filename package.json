@@ -1,0 +1,15 @@
+{
+  "name": "projetomercado",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Natalia Oliveira",
+  "license": "ISC",
+  "keywords": [],
+  "description": "",
+  "dependencies": {
+    "jest": "^29.1.2"
+  }
+}
