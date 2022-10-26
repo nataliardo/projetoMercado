@@ -2,6 +2,9 @@
 // Apontamento para o arquivo de desenvolvimento que vamos testar
 const calculadora  = require("../../src/calculadora");
 
+// Apontamento para o arquivo de massa de teste
+const arquivoJson = require("../../vendors/csv/massaDivisao");
+
 // Funções de teste de unidade
 test("Somar 5 + 7", () => {
     // 1 - Configura
@@ -70,3 +73,46 @@ test("Dividir 27 / 9", () => {
     expect(resultadoAtual).toBe(resultadoEsperado)
 
 })
+
+//array list - lista de valores
+//teste baseado em dados data driven test ddt
+
+let massaDivisao = [
+    [10, 5, 2],
+    [15, 3, 5],
+    [ 8, 4, 2], // o ultimo nao tem virgula, se acrescentar mais um caso, poe virgula no penultimo
+    [ 7, 0, Infinity]
+];
+
+test.each(massaDivisao)("Dividir %f / %f", (num1, num2, resultadoEsperado) => {
+    // Configura
+    // Dados de entrada e resultado esperado são providos pela lista massaDivisao
+
+    // Executa
+    const dividirDoisNumeros = calculadora.dividirDoisNumeros
+    const resultadoAtual = dividirDoisNumeros(num1, num2);
+    
+    // Valida
+    expect(resultadoAtual).toBe(resultadoEsperado)
+
+})
+
+// TESTE DIRECIONADO POR DADOS USANDO A MASSA DO CSV ou JSON
+test.each(arquivoJson.array.map(elemento =>  [
+    elemento.num1,
+    elemento.num2,
+    elemento.resultadoEsperado
+]))
+("DDT: Dividir %f / %f", (num1, num2, resultadoEsperado) => {
+
+    // Configura
+
+    // Executa
+    const dividirDoisNumeros = calculadora.dividirDoisNumeros
+    const resultadoAtual = dividirDoisNumeros(num1, num2);
+    
+    // Valida
+    expect(resultadoAtual).toBe(resultadoEsperado)
+
+})
+
