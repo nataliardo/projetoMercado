@@ -9,8 +9,9 @@ const petId = 179625524;                           // codigo do animal
 // Descrição = Conjunto de testes ~ Classe
 describe("PetStore Swagger - Pet", () => {
     const request = supertest(baseUrl);
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-    // Post - teste de incluir um animal
+    // Post - teste de inclusão de um animal
     it("Post Pet", () => {
         // Configura
         // Apontou para o arquivo com os dados do animal
@@ -29,6 +30,46 @@ describe("PetStore Swagger - Pet", () => {
                 assert.equal(response.body.status, "available"); // Se está com o status esperado
             });
     });
+
+    // Consulta o animal pelo seu petID
+    it("Get Pet", () => {
+        return request              // chamada para a requisição
+            .get("/pet/" + petId)   // consultar o animal pelo ID
+            .then ((response) => {  // tratar a resposta/retorno
+                assert.equal(response.statusCode, 200);
+                assert.equal(response.body.id, petId);
+                assert.equal(response.body.name, "Teresa");
+                assert.equal(response.body.status, "available");
+            });
+    });
+
+    // Alterar dados do animal
+    it("Put Pet", () => {
+        // Apontar para o arquivo json com a alteração desejada
+        const jsonFile = require("../../vendors/json/pet2.json");
+
+        return request              // realizar a requisição
+            .put("/pet")            // alterar o animal - apota para o endpoint
+            .send(jsonFile)         // json com a alteração
+            .then((response) => {   // receber e validar a resposta
+                assert.equal(response.statusCode, 200);
+                assert.equal(response.body.id, petId);
+                assert.equal(response.body.name, "Teresa");
+                assert.equal(response.body.tags[1].id, 4);
+                assert.equal(response.body.tags[1].name, "castrated");
+                assert.equal(response.body.status, "solded");
+            }); //fecha o then
+
+    }); // fecha o it
+
+    it("Delete Pet", () => {
+        return request
+            .delete(/pet/ + petId)
+            .then((response) => {
+                assert.equal(response.statusCode, 200);
+
+            });
+    })
     
-});
+}); //fecha o describe
 

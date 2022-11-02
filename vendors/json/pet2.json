@@ -1,0 +1,23 @@
+{
+    "id": 179625524,
+    "category": {
+      "id": 2,
+      "name": "Cat"
+    },
+    "name": "Teresa",
+    "photoUrls": [
+      ""
+    ],
+    "tags": [
+      {
+        "id": 3,
+        "name": "vaccinated"
+      },
+      {
+        "id": 4,
+        "name": "castrated"
+      }
+    ],
+    "status": "solded"
+  }
+  
