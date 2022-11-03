@@ -9,7 +9,7 @@ let token;
 
 describe("PetStore Swagger - User", () => {
     const request = supertest(baseUrl);
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; //erro do certificado
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // corrige erro do certificado nos testes
 
     it("Get User Login", () => {
         // Configura
