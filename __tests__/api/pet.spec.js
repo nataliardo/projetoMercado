@@ -9,7 +9,8 @@ const petId = 179625524;                           // codigo do animal
 // Descrição = Conjunto de testes ~ Classe
 describe("PetStore Swagger - Pet", () => {
     const request = supertest(baseUrl);
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    const pets = require("../../vendors/json/petn");
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // corrige erro do certificado nos testes
 
     // Post - teste de inclusão de um animal
     it("Post Pet", () => {
@@ -68,9 +69,29 @@ describe("PetStore Swagger - Pet", () => {
             .then((response) => {
                 assert.equal(response.statusCode, 200);
 
-            });
-    })
-    
+            }); // fecha o then
+    }); // fecha o it
+
+    // funcao de carga de animais - setup
+    pets.array.forEach(({nomePet, idPet, nomeCategoria, idCategoria}) => {
+        it("Setup Swagger - Add Pets", () => {
+            pet.id = idPet
+            pet.name = nomePet
+            pet.category.id = idCategoria
+            pet.category.name = nomeCategoria
+            pet.tags[0].id = 3
+            pet.tags[0].name = "vaccinated" 
+            pet.status = "done"
+
+            return request 
+                .post("/pet")
+                .send(pet)
+
+
+        }); // Fecha o it
+
+    }); // fecha o forEach
+   
 }); //fecha o describe
 
 
